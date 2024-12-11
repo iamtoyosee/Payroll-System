@@ -1,73 +1,90 @@
 #include <stdio.h>
 
-int main (){
-	
-	//declare variables for the five different products
-	int tv, vcr, remote, cd, tape;
+float calculateManagerPay();
+float calculateHourlyPay();
+float calculateCommissionPay();
 
-	//declare item prices, total_price, subtotal and total_amount as float variables
-	float tvCost, vcrCost, remoteCost, cdCost, tapeCost,tax, total_price, subtotal, total;
+int main() {
+    int emp_id, payCode;
+    float taxes, gross_pay, net_pay;
+    const int numOfEmployees = 5;
 
-	//declare constants for the unit prices of the products and the tax rate.
-	const float tv_price = 400.00;
-	const float vcr_price = 220.00;
-	const float remote_price = 35.20;
-	const float cd_price  = 300.00;
-	const float tape_price = 150.00;
-	const float tax_amount = 8.25;
-	
-	//input the number of tv sold
-	printf("How Many TVs Were Sold: ");
-	scanf("%d", &tv);
-	
-	//input the number of vcr sold
-	printf("How Many VCRs Were Sold: ");
-	scanf("%d", &vcr);
+    for (int empIndex = 0; empIndex < numOfEmployees; empIndex++) {
+        printf("--------------------Employee %d----------------------\n", empIndex + 1);
 
-	//input the number of remote controllers sold
-	printf("How Many Remote Controllers Were Sold: ");
-	scanf("%d", &remote);
-	
-	//input the number of cd's sold
-	printf("How Many CDs Were Sold: ");
-	scanf("%d", &cd);
+        printf("Enter Employee Pay code: ");
+        scanf("%d", &payCode);
 
-	//input the number of tape recorders sold
-	printf("How Many tape recorders Were Sold: ");
-	scanf("%d", &tape);
+        printf("Enter Employee ID number: ");
+        scanf("%d", &emp_id);
 
-	// Calculate costs
-	tvCost = tv * tv_price;
-	vcrCost = vcr * vcr_price;
-	remoteCost = remote * remote_price;
-	cdCost = cd * cd_price;
-	tapeCost = tape * tape_price;
-	
-	//Calculate subtotal
-	subtotal = tvCost + vcrCost + remoteCost + cdCost + tapeCost;
+        switch (payCode) {
+            case 1:
+                gross_pay = calculateManagerPay();
+                break;
+            case 2:
+                gross_pay = calculateHourlyPay();
+                break;
+            case 3:
+                gross_pay = calculateCommissionPay();
+                break;
+            default:
+                printf("Invalid pay code entered.\n");
+                continue;
+        }
 
-	// Calculate tax
-    tax = (subtotal * tax_amount) / 100;
+        taxes = gross_pay * 0.03525;
+        net_pay = gross_pay - taxes;
 
-	//Calculate total
-	total = subtotal + tax;
-	
-	//Output Customer's receipt
-	
-	printf("\n\n*** Customer's Receipt ***\n");
-    printf("\n%-10s%-25s%-15s%-15s\n", "QTY", "DESCRIPTION", "UNIT PRICE", "TOTAL PRICE");
-    printf("-------------------------------------------------------------\n");
-    printf("%-10d %-25s$ %-14.2f$ %-14.2f\n", tv, "TVs", tv_price, tvCost);
-    printf("%-10d %-25s$ %-14.2f$ %-14.2f\n", vcr, "VCRs", vcr_price, vcrCost);
-    printf("%-10d %-25s$ %-14.2f$ %-14.2f\n", remote, "Remote Controllers", remote_price, remoteCost);
-    printf("%-10d %-25s$ %-14.2f$ %-14.2f\n", cd, "CDs", cd_price, cdCost);
-    printf("%-10d %-25s$ %-14.2f$ %-14.2f\n", tape, "Tape Recorders", tape_price, tapeCost);
-    printf("-------------------------------------------------------------\n");
-    printf("%-50s$ %-14.2f\n", "Subtotal:", subtotal);
-    printf("%-50s$ %-14.2f\n", "Tax:", tax);
-    printf("%-50s$ %-14.2f\n", "Total:", total);
+        printf("---------------------------------------------------------\n");
+        printf("Employee ID: %d\n", emp_id);
+        printf("Gross Pay: $%.2f\n", gross_pay);
+        printf("Withholding tax: $%.2f\n", taxes);
+        printf("Employee net pay: $%.2f\n", net_pay);
+        printf("---------------------------------------------------------\n\n");
+    }
 
-	
-	
+    return 0;
+}
 
-	}
+float calculateManagerPay() {
+    float emp_pay;
+
+    printf("Enter fixed weekly salary: ");
+    scanf("%f", &emp_pay);
+
+    return emp_pay;
+}
+
+float calculateHourlyPay() {
+    float emp_rate, emp_hours;
+    const float extraRate = emp_rate * 1.5;
+    const int timeLimit = 40;
+
+    printf("Enter Hourly rate: ");
+    scanf("%f", &emp_rate);
+
+    printf("Enter Number of hours worked: ");
+    scanf("%f", &emp_hours);
+
+    if (emp_hours <= timeLimit) {
+        return emp_rate * emp_hours;
+    } else {
+        float emp_pay = emp_rate * timeLimit;
+        float additional_pay = (emp_hours - timeLimit) * extraRate;
+        return emp_pay + additional_pay;
+    }
+}
+
+float calculateCommissionPay() {
+    float emp_sales, commission_pay;
+
+    printf("Enter Employee Weekly Sales: ");
+    scanf("%f", &emp_sales);
+
+    commission_pay = 0.072 * emp_sales;
+    return 375 + commission_pay;
+}
+
+
+write a readme for this in markdown
